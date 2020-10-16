@@ -16,6 +16,11 @@ public class BookController {
         this.memoryBookService = memoryBookService;
     }
 
+    @GetMapping("/{id}")
+    public Book getBook(@PathVariable Long id) {
+        return memoryBookService.getBook(id);
+    }
+
     @GetMapping("")
     public List<Book> displayBooks() {
         return memoryBookService.getBooks();
@@ -38,7 +43,7 @@ public class BookController {
                 "</html>";
     }
 
-    @RequestMapping("/addBook")
+    @GetMapping("/addBook")
     public String addBook() {
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
