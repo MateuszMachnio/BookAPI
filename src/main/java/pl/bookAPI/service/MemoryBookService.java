@@ -3,10 +3,7 @@ package pl.bookAPI.service;
 import org.springframework.stereotype.Service;
 import pl.bookAPI.book.Book;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MemoryBookService {
@@ -55,6 +52,16 @@ public class MemoryBookService {
                 .filter(book -> book.getId().equals(bookId))
                 .limit(1)
                 .forEach(book -> books.remove(book));
+    }
+
+    public Long getNextId() {
+        OptionalLong max = books.stream()
+                .mapToLong(Book::getId)
+                .max();
+        if (max.isPresent()) {
+            return max.getAsLong() + 1;
+        }
+        return 1L;
     }
 
 }
