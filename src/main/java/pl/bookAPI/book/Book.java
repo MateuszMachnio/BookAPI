@@ -19,8 +19,7 @@ public class Book {
 
     }
 
-    public Book(Long id, String isbn, String title, String author, String publisher, String type) {
-        this.id = id;
+    public Book(String isbn, String title, String author, String publisher, String type) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
@@ -28,10 +27,10 @@ public class Book {
         this.type = type;
     }
 
-//    public Book(Long id, String isbn, String title, String author, String publisher, String type) {
-//        this(isbn, title, author, publisher, type);
-//        this.id = id;
-//    }
+    public Book(Long id, String isbn, String title, String author, String publisher, String type) {
+        this(isbn, title, author, publisher, type);
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
