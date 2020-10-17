@@ -7,11 +7,11 @@ public interface BookService {
 
     List<Book> getBooks();
 
-    void addBook(Book book);
+    boolean addBook(Book book);
 
     Optional<Book> getBook(Long bookId);
 
-    void editBook(Book book);
+    boolean updateBook(Book book);
 
     boolean deleteBook(Long bookId);
 }

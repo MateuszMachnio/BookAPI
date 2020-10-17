@@ -20,36 +20,48 @@ public class MemoryBookService implements BookService {
         books.add(new Book(3L, "9780130819338", "Java	2.	Podstawy", "Cay	Horstmann,	Gary	Cornell", "Helion", "programming"));
     }
 
-    public void addBook(Book book) {
+    @Override
+    public boolean addBook(Book book) {
         book.setId(nextId++);
-        Objects.requireNonNull(book);
         books.add(book);
+        return getBook(nextId - 1).isPresent();
     }
 
+    @Override
     public List<Book> getBooks() {
         return books;
     }
 
+    @Override
     public Optional<Book> getBook(Long bookId) {
         return books.stream()
                 .filter(book -> book.getId().equals(bookId))
                 .findFirst();
     }
 
-    public void editBook(Book editedBook) {
-        books.stream()
+    @Override
+    public boolean updateBook(Book editedBook) {
+        if (getBook(editedBook.getId()).isPresent()) {
+            books.stream()
                     .filter(book -> book.getId().equals(editedBook.getId()))
-                    .limit(1)
-                    .peek(book -> {
+                    .forEach(book -> {
                         book.setIsbn(editedBook.getIsbn());
                         book.setTitle(editedBook.getTitle());
                         book.setAuthor(editedBook.getAuthor());
                         book.setPublisher(editedBook.getPublisher());
                         book.setType(editedBook.getType());
-                    })
-                    .findFirst().orElse(null);
+                    });
+            return true;
+        }
+//        if (getBook(editedBook.getId()).isPresent()) {
+//            int indexOf = books.indexOf(getBook(editedBook.getId()).get());
+//            books.set(indexOf, editedBook);
+//            return true;
+//        }
+        return false;
     }
 
+    @Override
     public boolean deleteBook(Long bookId) {
         if (getBook(bookId).isPresent()) {
             books.remove(getBook(bookId).get());

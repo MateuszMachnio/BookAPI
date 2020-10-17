@@ -9,6 +9,8 @@ import pl.bookAPI.book.BookService;
 import pl.bookAPI.service.MemoryBookService;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
@@ -20,29 +22,22 @@ public class BookController {
         this.bookService = bookService;
     }
 
-//    @PutMapping("/{id}")
-//    @PutMapping(path = "", consumes = "application/json")
-//    public Book editBook(@PathVariable Long id, @RequestParam(required = false) String isbn, @RequestParam(required = false) String title, @RequestParam(required = false) String author, @RequestParam(required = false) String publisher, @RequestParam(required = false) String type) {
-//    public Book editBook(@PathVariable Long id, @RequestBody Book book) {
-//    public void editBook(@RequestBody Book book) {
-//        book.setId(id);
-//        Book book = memoryBookService.getBook(id);
-//        Objects.requireNonNull(book);
-//        book.setIsbn(Optional.ofNullable(isbn).orElse(book.getIsbn()));
-//        book.setTitle(Optional.ofNullable(title).orElse(book.getTitle()));
-//        book.setAuthor(Optional.ofNullable(author).orElse(book.getAuthor()));
-//        book.setPublisher(Optional.ofNullable(publisher).orElse(book.getPublisher()));
-//        book.setType(Optional.ofNullable(type).orElse(book.getType()));
-//        bookService.editBook(book);
-//    }
+    @PutMapping("/{id}")
+    public Book editBook(@PathVariable Long id, @RequestBody Book book) {
+        book.setId(id);
+        if (!bookService.updateBook(book)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "there is no book with this id");
+        }
+        return book;
+    }
 
     @GetMapping("/{id}")
     public Book getBook(@PathVariable Long id) {
         return bookService.getBook(id).orElseThrow(() -> {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "book not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "there is no book with this id");
         } );
     }
-//    curl -X PUT -i -H "Content-Type: application/json" -d '{"id":1, "isbn":"32222", "title":"Thinking in C#", "publisher":"IT Books", "type":"programming", "author":"Bruce Eckel"}' http://localhost:8080/books
+//    curl -X PUT -i -H "Content-Type: application/json" -d '{"isbn":"32222", "title":"Thinking in C#", "publisher":"IT Books", "type":"programming", "author":"Bruce Eckel"}' http://localhost:8080/books/2
 //    curl -X POST -i -H "Content-Type: application/json" -d '{"isbn":"34321", "title":"Thinking in Java", "publisher":"Helion", "type":"programming", "author":"Bruce Eckel"}' http://localhost:8080/books
     @GetMapping("")
     public List<Book> displayBooks() {
@@ -50,15 +45,18 @@ public class BookController {
     }
 
     @PostMapping("")
-    public void addBookToList(@RequestBody Book book) {
-        bookService.addBook(book);
+    public Book addBookToList(@RequestBody Book book) {
+        if (!bookService.addBook(book)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "book creation failed");
+        }
+        return book;
     }
 
     @DeleteMapping("/{id}")
     public void deleteBook(@PathVariable Long id) {
 //        bookService.deleteBook(id);
         if (!bookService.deleteBook(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "book not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "there is no book with this id");
         }
     }
 

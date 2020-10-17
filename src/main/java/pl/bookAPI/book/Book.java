@@ -16,7 +16,7 @@ public class Book {
     private String type;
 
     public Book() {
-//        super();
+
     }
 
     public Book(Long id, String isbn, String title, String author, String publisher, String type) {
