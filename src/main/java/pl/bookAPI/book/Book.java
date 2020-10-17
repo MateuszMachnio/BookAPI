@@ -2,6 +2,7 @@ package pl.bookAPI.book;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.beans.ConstructorProperties;
 
@@ -14,7 +15,10 @@ public class Book {
     private String publisher;
     private String type;
 
-    @JsonCreator
+    public Book() {
+//        super();
+    }
+
     public Book(Long id, String isbn, String title, String author, String publisher, String type) {
         this.id = id;
         this.isbn = isbn;
