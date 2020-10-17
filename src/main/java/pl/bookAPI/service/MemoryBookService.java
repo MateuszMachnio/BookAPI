@@ -9,9 +9,14 @@ import java.util.*;
 public class MemoryBookService {
 
     private List<Book> books;
+//    private static Long nextId = 4L;
+
 
     public MemoryBookService() {
         books = new ArrayList<>();
+        books.add(new Book(1L, "9788324631766", "Thiniking	in	Java", "Bruce	Eckel", "Helion", "programming"));
+        books.add(new Book(2L, "9788324627738", "Rusz	glowa	Java.", "Sierra	Kathy,	Bates	Bert", "Helion", "programming"));
+        books.add(new Book(3L, "9780130819338", "Java	2.	Podstawy", "Cay	Horstmann,	Gary	Cornell", "Helion", "programming"));
     }
 
     public void addBook(Book book) {
@@ -29,22 +34,18 @@ public class MemoryBookService {
                 .findFirst().orElse(null);
     }
 
-    public boolean editBook(Book editedBook) {
-        boolean anyMatch = books.stream()
-                .anyMatch(book -> book.getId().equals(editedBook.getId()));
-        if (anyMatch) {
-            Optional<Book> thisBook = books.stream()
+    public Book editBook(Book editedBook) {
+            return books.stream()
                     .filter(book -> book.getId().equals(editedBook.getId()))
-                    .findFirst();
-            thisBook.ifPresent(book -> {
-                book.setIsbn(editedBook.getIsbn());
-                book.setTitle(editedBook.getTitle());
-                book.setAuthor(editedBook.getAuthor());
-                book.setPublisher(editedBook.getPublisher());
-                book.setType(editedBook.getType());
-            });
-        }
-        return anyMatch;
+                    .limit(1)
+                    .peek(book -> {
+                        book.setIsbn(editedBook.getIsbn());
+                        book.setTitle(editedBook.getTitle());
+                        book.setAuthor(editedBook.getAuthor());
+                        book.setPublisher(editedBook.getPublisher());
+                        book.setType(editedBook.getType());
+                    })
+                    .findFirst().orElse(null);
     }
 
     public void deleteBook(Long bookId) {

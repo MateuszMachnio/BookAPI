@@ -1,5 +1,10 @@
 package pl.bookAPI.book;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.beans.ConstructorProperties;
+
 public class Book {
 
     private Long id;
@@ -9,6 +14,7 @@ public class Book {
     private String publisher;
     private String type;
 
+    @JsonCreator
     public Book(Long id, String isbn, String title, String author, String publisher, String type) {
         this.id = id;
         this.isbn = isbn;
@@ -17,6 +23,11 @@ public class Book {
         this.publisher = publisher;
         this.type = type;
     }
+
+//    public Book(Long id, String isbn, String title, String author, String publisher, String type) {
+//        this(isbn, title, author, publisher, type);
+//        this.id = id;
+//    }
 
     public Long getId() {
         return id;

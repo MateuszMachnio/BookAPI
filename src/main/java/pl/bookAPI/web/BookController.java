@@ -1,10 +1,14 @@
 package pl.bookAPI.web;
 
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.tags.Param;
 import pl.bookAPI.book.Book;
 import pl.bookAPI.service.MemoryBookService;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
@@ -16,11 +20,28 @@ public class BookController {
         this.memoryBookService = memoryBookService;
     }
 
+//    @PutMapping("/{id}")
+    @PutMapping(path = "", consumes = "application/json")
+//    public Book editBook(@PathVariable Long id, @RequestParam(required = false) String isbn, @RequestParam(required = false) String title, @RequestParam(required = false) String author, @RequestParam(required = false) String publisher, @RequestParam(required = false) String type) {
+//    public Book editBook(@PathVariable Long id, @RequestBody Book book) {
+    public Book editBook(@RequestBody Book book) {
+//        book.setId(id);
+//        Book book = memoryBookService.getBook(id);
+//        Objects.requireNonNull(book);
+//        book.setIsbn(Optional.ofNullable(isbn).orElse(book.getIsbn()));
+//        book.setTitle(Optional.ofNullable(title).orElse(book.getTitle()));
+//        book.setAuthor(Optional.ofNullable(author).orElse(book.getAuthor()));
+//        book.setPublisher(Optional.ofNullable(publisher).orElse(book.getPublisher()));
+//        book.setType(Optional.ofNullable(type).orElse(book.getType()));
+        return memoryBookService.editBook(book);
+    }
+
     @GetMapping("/{id}")
     public Book getBook(@PathVariable Long id) {
         return memoryBookService.getBook(id);
     }
-
+//    curl -X PUT -i -H "Content-Type: application/json" -d '{"id":1, "isbn":"32222", "title":"Thinking in C#", "publisher":"IT Books", "type":"programming", "author":"Bruce Eckel"}' http://localhost:8080/books
+//    curl -X POST -i -H "Content-Type: application/json" -d '{"isbn":"34321","title":"Thinking in Java", "publisher":"Helion","type":"programming", "author":"Bruce Eckel"}' http://localhost:8080/books
     @GetMapping("")
     public List<Book> displayBooks() {
         return memoryBookService.getBooks();
