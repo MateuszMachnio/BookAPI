@@ -3,11 +3,10 @@ It is a project implemented after passing the fifth module of the course in Code
 This module was focused on __Spring MVC__.
 ## What programme is that?
 The program is used to catalog books using the REST method. \
-It supports four __REST methods__: _GET_, _POST_, _PUT_, _DELETE_.
-
+It supports four __REST methods__: _GET_, _POST_, _PUT_, _DELETE_. \
 Two operations can be performed on the __/books__ resource:
 - download a list of all books;
-- send a book that will be added to the book list.
+- send a book that will be added to the book list. \
 For the resource __/books/{id}__ you can: 
 - download book data with a given id; 
 - edit the book; 
