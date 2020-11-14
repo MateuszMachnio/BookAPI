@@ -1,4 +1,4 @@
-# BookAPI
+# BookAPI-Spring
 It is a project implemented after passing the fifth module of the course in CodersLab. \
 This module was focused on __Spring MVC__.
 ## What programme is that?
